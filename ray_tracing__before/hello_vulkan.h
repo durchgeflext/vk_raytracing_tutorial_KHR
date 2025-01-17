@@ -107,6 +107,10 @@ public:
   void updatePostDescriptorSet();
   void drawPost(VkCommandBuffer cmdBuf);
 
+  // #VKRay
+  void initRayTracing();
+  VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
+
   nvvk::DescriptorSetBindings m_postDescSetLayoutBind;
   VkDescriptorPool            m_postDescPool{VK_NULL_HANDLE};
   VkDescriptorSetLayout       m_postDescSetLayout{VK_NULL_HANDLE};
