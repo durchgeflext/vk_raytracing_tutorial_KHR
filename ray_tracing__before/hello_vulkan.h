@@ -110,6 +110,12 @@ public:
 
   nvvk::RaytracingBuilderKHR m_rtBuilder;
 
+  std::vector<VkRayTracingShaderGroupCreateInfoKHR> m_rtShaderGroups;
+  VkPipelineLayout                                  m_rtPipelineLayout;
+  VkPipeline                                        m_rtPipeline;
+  // Push constant for ray tracer
+  PushConstantRay m_pcRay{};
+
 
   // #Post - Draw the rendered image on a quad using a tonemapper
   void createOffscreenRender();
@@ -124,6 +130,7 @@ public:
   void createTopLevelAS();
   void createRtDescriptorSet();
   void updateRtDescriptorSet();
+  void createRtPipeline();
 
   VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
 
