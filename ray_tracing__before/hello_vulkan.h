@@ -116,6 +116,12 @@ public:
   // Push constant for ray tracer
   PushConstantRay m_pcRay{};
 
+  nvvk::Buffer                    m_rtSBTBuffer;
+  VkStridedDeviceAddressRegionKHR m_rgenRegion{};
+  VkStridedDeviceAddressRegionKHR m_missRegion{};
+  VkStridedDeviceAddressRegionKHR m_hitRegion{};
+  VkStridedDeviceAddressRegionKHR m_callRegion{};
+
 
   // #Post - Draw the rendered image on a quad using a tonemapper
   void createOffscreenRender();
@@ -131,6 +137,8 @@ public:
   void createRtDescriptorSet();
   void updateRtDescriptorSet();
   void createRtPipeline();
+  void createRtShaderBindingTable();
+  void raytrace(const VkCommandBuffer& cmdBuf, const glm::vec4& clearColor);
 
   VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
 
