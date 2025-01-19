@@ -25,7 +25,10 @@
 #include "nvvk/memallocator_dma_vk.hpp"
 #include "nvvk/resourceallocator_vk.hpp"
 #include "shaders/host_device.h"
+// #VKRay
+#include "nvvk/raytraceKHR_vk.hpp"
 
+struct ObjModel;
 //--------------------------------------------------------------------------------------------------
 // Simple rasterizer of OBJ objects
 // - Each OBJ loaded are stored in an `ObjModel` and referenced by a `ObjInstance`
@@ -90,6 +93,12 @@ public:
   VkDescriptorSetLayout       m_descSetLayout;
   VkDescriptorSet             m_descSet;
 
+  //#VKRay
+  nvvk::DescriptorSetBindings                     m_rtDescSetLayoutBind;
+  VkDescriptorPool                                m_rtDescPool;
+  VkDescriptorSetLayout                           m_rtDescSetLayout;
+  VkDescriptorSet                                 m_rtDescSet;
+
   nvvk::Buffer m_bGlobals;  // Device-Host of the camera matrices
   nvvk::Buffer m_bObjDesc;  // Device buffer of the OBJ descriptions
 
@@ -99,6 +108,8 @@ public:
   nvvk::ResourceAllocatorDma m_alloc;  // Allocator for buffer, images, acceleration structures
   nvvk::DebugUtil            m_debug;  // Utility to name objects
 
+  nvvk::RaytracingBuilderKHR m_rtBuilder;
+
 
   // #Post - Draw the rendered image on a quad using a tonemapper
   void createOffscreenRender();
@@ -106,9 +117,14 @@ public:
   void createPostDescriptor();
   void updatePostDescriptorSet();
   void drawPost(VkCommandBuffer cmdBuf);
-
   // #VKRay
   void initRayTracing();
+  auto objectToVkGeometryKHR(const ObjModel& model);
+  void createBottomLevelAS();
+  void createTopLevelAS();
+  void createRtDescriptorSet();
+  void updateRtDescriptorSet();
+
   VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtProperties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_PROPERTIES_KHR};
 
   nvvk::DescriptorSetBindings m_postDescSetLayoutBind;
