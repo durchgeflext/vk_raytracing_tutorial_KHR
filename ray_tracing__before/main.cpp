@@ -171,12 +171,6 @@ int main(int argc, char** argv)
 
   // #VKRay
   helloVk.initRayTracing();
-  helloVk.createBottomLevelAS();
-  helloVk.createTopLevelAS();
-  helloVk.createRtDescriptorSet();
-  helloVk.createRtPipeline();
-
-  bool useRaytracer = true;
 
   helloVk.createPostDescriptor();
   helloVk.createPostPipeline();
